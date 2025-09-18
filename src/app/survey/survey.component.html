@@ -1,0 +1,84 @@
+<div class="survey-container">
+  <div class="background-overlay"></div>
+
+  <mat-card class="survey-card">
+    <!-- Logo -->
+    <div class="header-container">
+      <img src="assets/logo.png" alt="Logo" class="logo" />
+      <mat-card-title>Encuesta de Satisfacción</mat-card-title>
+      <mat-card-subtitle>Tu opinión nos ayuda a mejorar</mat-card-subtitle>
+    </div>
+
+    <mat-card-content>
+      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+
+        <!-- Selección tipo -->
+        <mat-radio-group formControlName="tipo" class="tipo-selector">
+          <mat-radio-button value="paciente">Paciente</mat-radio-button>
+          <mat-radio-button value="acompanante">Acompañante</mat-radio-button>
+        </mat-radio-group>
+
+        <!-- Campos Paciente -->
+        <div *ngIf="esPaciente()" class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Cédula</mat-label>
+            <input matInput formControlName="cedula" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre</mat-label>
+            <input matInput formControlName="nombre" required>
+          </mat-form-field>
+        </div>
+
+        <!-- Campos Acompañante -->
+        <div *ngIf="esAcompanante()" class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre del acompañante</mat-label>
+            <input matInput formControlName="nombreAcompanante" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Cédula del paciente</mat-label>
+            <input matInput formControlName="pacienteCedula" required>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Nombre del paciente</mat-label>
+            <input matInput formControlName="pacienteNombre" required>
+          </mat-form-field>
+        </div>
+
+        <!-- Calificación -->
+        <p class="section-title">Calificación del servicio</p>
+        <div class="stars">
+          <span *ngFor="let star of stars; let i = index" class="star"
+            [class.selected]="i < form.get('calificacion')?.value" (click)="setRating(i + 1)">
+            ★
+          </span>
+        </div>
+
+        <!-- Valor de la calificación -->
+        <p class="calificacion-valor">
+          ⭐ Tu calificación:
+          <span class="calificacion-numero">
+            {{ form.get('calificacion')?.value || 0 }}/5
+          </span>
+        </p>
+
+        <!-- Comentario -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Comentario</mat-label>
+          <textarea matInput formControlName="comentario" rows="3"></textarea>
+        </mat-form-field>
+
+        <!-- Botón -->
+        <div class="button-container">
+          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
+            Enviar Encuesta
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
