@@ -6,5 +6,5 @@ Este proyecto es una aplicación web sencilla hecha en **Angular 19** que permit
 
 1. Clona este repositorio
    ```bash
-   git clone https://github.com/TU-USUARIO/encuesta-ips.git
+   git clone https://github.com/estebrojazz-coder/encuestas_ips.git
    cd encuesta-ips
