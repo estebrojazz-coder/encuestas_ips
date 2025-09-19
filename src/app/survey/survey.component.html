@@ -12,44 +12,100 @@
     <mat-card-content>
       <form [formGroup]="form" (ngSubmit)="onSubmit()">
 
-        <!-- Selección tipo -->
-        <mat-radio-group formControlName="tipo" class="tipo-selector">
-          <mat-radio-button value="paciente">Paciente</mat-radio-button>
-          <mat-radio-button value="acompanante">Acompañante</mat-radio-button>
-        </mat-radio-group>
+        <!-- Selección de rol -->
+        <div class="rol-section">
+          <mat-button-toggle-group formControlName="tipo" class="rol-toggle" appearance="legacy">
+            <mat-button-toggle value="paciente">
+              <mat-icon>person</mat-icon>
+              Paciente
+            </mat-button-toggle>
 
-        <!-- Campos Paciente -->
+            <mat-button-toggle value="acompanante">
+              <mat-icon>groups</mat-icon>
+              Acompañante
+            </mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+
+
+
+        <!-- 📌 Campos Paciente -->
         <div *ngIf="esPaciente()" class="form-section">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Cédula</mat-label>
-            <input matInput formControlName="cedula" required>
-          </mat-form-field>
+          <div class="documento-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de documento</mat-label>
+              <mat-select formControlName="tipoDocumento" required>
+                <mat-option value="cc">Cédula</mat-option>
+                <mat-option value="ti">Tarjeta de Identidad</mat-option>
+                <mat-option value="rc">Registro Civil</mat-option>
+                <mat-option value="ce">Cédula de Extranjería</mat-option>
+                <mat-option value="pas">Pasaporte</mat-option>
+                <mat-option value="ptp">Permiso Temporal</mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Número de documento</mat-label>
+              <input matInput formControlName="cedula" required />
+            </mat-form-field>
+          </div>
 
           <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombre</mat-label>
-            <input matInput formControlName="nombre" required>
+            <mat-label>Nombres y apellidos</mat-label>
+            <input matInput formControlName="nombre" required />
           </mat-form-field>
         </div>
 
-        <!-- Campos Acompañante -->
+        <!-- 📌 Campos Acompañante -->
         <div *ngIf="esAcompanante()" class="form-section">
+          <!-- Nombre acompañante -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del acompañante</mat-label>
-            <input matInput formControlName="nombreAcompanante" required>
+            <input matInput formControlName="nombreAcompanante" required />
           </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Cédula del paciente</mat-label>
-            <input matInput formControlName="pacienteCedula" required>
-          </mat-form-field>
+          <!-- Tipo y número de documento paciente -->
+          <div class="documento-container">
+            <mat-form-field appearance="outline">
+              <mat-label>Tipo de documento del paciente</mat-label>
+              <mat-select formControlName="tipoDocumentoPaciente" required>
+                <mat-option value="cc">Cédula</mat-option>
+                <mat-option value="ti">Tarjeta de Identidad</mat-option>
+                <mat-option value="rc">Registro Civil</mat-option>
+                <mat-option value="ce">Cédula de Extranjería</mat-option>
+                <mat-option value="pas">Pasaporte</mat-option>
+                <mat-option value="ptp">Permiso Temporal</mat-option>
+              </mat-select>
+            </mat-form-field>
 
+            <mat-form-field appearance="outline">
+              <mat-label>Número de documento</mat-label>
+              <input matInput formControlName="pacienteCedula" required />
+            </mat-form-field>
+          </div>
+
+          <!-- Nombre paciente -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del paciente</mat-label>
-            <input matInput formControlName="pacienteNombre" required>
+            <input matInput formControlName="pacienteNombre" required />
           </mat-form-field>
         </div>
 
-        <!-- Calificación -->
+        <!-- 📞 Teléfono (paciente) -->
+        <div *ngIf="esPaciente() || esAcompanante()" class="form-section">
+          <mat-form-field appearance="outline" class="full-width">
+            <mat-label>Teléfono</mat-label>
+            <input matInput formControlName="telefono" required>
+            <mat-error *ngIf="form.get('telefono')?.hasError('required')">
+              El teléfono es obligatorio
+            </mat-error>
+            <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
+              Solo se permiten números (7 a 15 dígitos)
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <!-- 📌 Calificación -->
         <p class="section-title">Calificación del servicio</p>
         <div class="stars">
           <span *ngFor="let star of stars; let i = index" class="star"
@@ -58,7 +114,6 @@
           </span>
         </div>
 
-        <!-- Valor de la calificación -->
         <p class="calificacion-valor">
           ⭐ Tu calificación:
           <span class="calificacion-numero">
@@ -66,13 +121,13 @@
           </span>
         </p>
 
-        <!-- Comentario -->
+        <!-- 📌 Comentario -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Comentario</mat-label>
           <textarea matInput formControlName="comentario" rows="3"></textarea>
         </mat-form-field>
 
-        <!-- Botón -->
+        <!-- 📌 Botón -->
         <div class="button-container">
           <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
             Enviar Encuesta
