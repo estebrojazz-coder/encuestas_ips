@@ -1,3 +1,5 @@
+/* --- Estilo general tipo Google Forms --- */
+
 /* Contenedor principal con fondo */
 .survey-container {
   position: relative;
@@ -16,82 +18,87 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(0, 0, 0, 0.45);
+  background: rgba(0, 0, 0, 0.35);
   z-index: 1;
 }
 
-/* Card con efecto moderno */
+/* Card estilo Google Forms */
 .survey-card {
   position: relative;
   z-index: 2;
   padding: 25px;
   width: 100%;
-  max-width: 420px;
-  border-radius: 18px;
-  background: rgba(255, 255, 255, 0.97);
-  box-shadow: 0px 10px 28px rgba(0, 0, 0, 0.25);
-  backdrop-filter: blur(12px);
+  max-width: 640px;
+  border-radius: 20px;
+  background: #ffffff;
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.12);
   animation: fadeIn 0.8s ease-in-out;
 }
 
 /* Animación suave */
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* Contenedor del header (logo + títulos) */
+/* --- Header con degradado suave tipo Google Forms --- */
 .header-container {
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
   margin-bottom: 20px;
-}
-
-.header-container .logo {
-  margin-bottom: 10px;
+  padding: 25px 15px;
+  border-radius: 18px;
+  background: linear-gradient(135deg, #e8f0fe, #f1f3f4);
+  box-shadow: 0px 4px 10px rgba(0,0,0,0.08);
 }
 
 /* Logo centrado */
 .logo {
-  max-width: 220px;
+  max-width: 200px;
   height: auto;
   object-fit: contain;
-  display: block;
+  margin-bottom: 12px;
 }
 
-/* Títulos */
+/* Títulos con contraste sobre el degradado */
 mat-card-title {
-  font-size: 1.4rem;
+  font-size: 1.5rem;
   font-weight: bold;
-  text-align: center;
-  color: #222;
+  color: #202124;
 }
 
 mat-card-subtitle {
-  text-align: center;
   font-size: 1rem;
-  margin-bottom: 15px;
-  color: #666;
+  color: #5f6368;
 }
 
-/* Formulario */
-.full-width {
+
+/* --- Formularios estilo Google Forms --- */
+mat-form-field {
   width: 100%;
 }
 
-.form-section {
-  margin-bottom: 15px;
+mat-form-field .mat-form-field-outline {
+  border-radius: 12px !important;
 }
 
-/* 📌 Rol (Paciente / Acompañante con toggle pill) */
+mat-form-field .mat-input-element {
+  padding: 10px !important;
+}
+
+/* Inputs suaves */
+.mat-form-field-appearance-outline .mat-form-field-outline {
+  border-color: #dadce0 !important;
+  border-radius: 12px !important;
+}
+
+.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
+  border-color: #1a73e8 !important;
+}
+
+/* --- Sección Rol (Paciente/Acompañante) --- */
 .rol-section {
   margin: 20px 0;
   display: flex;
@@ -101,52 +108,32 @@ mat-card-subtitle {
 .rol-toggle {
   display: flex;
   gap: 12px;
-  justify-content: center;
   width: 100%;
+  justify-content: center;
 }
 
 .rol-toggle .mat-button-toggle {
   flex: 1;
-  min-width: 120px;
-  max-width: 150px;
-  border-radius: 25px;
-  padding: 8px 14px;
-  text-transform: none;
+  border-radius: 30px !important;
+  padding: 12px 18px;
   font-weight: 600;
-  font-size: 0.9rem;
-  background: #fff;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 4px 10px rgba(0,0,0,0.06);
+  font-size: 0.95rem;
+  background: #f1f3f4;
+  border: none !important;
   transition: all 0.25s ease;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
-.rol-toggle .mat-button-toggle .mat-button-toggle-label-content {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 0.9rem;
-  color: #222;
-}
-
-/* Hover */
 .rol-toggle .mat-button-toggle:hover {
-  background: rgba(25,118,210,0.08);
-  transform: translateY(-2px);
+  background: #e8f0fe;
 }
 
-/* Seleccionado */
 .rol-toggle .mat-button-toggle.mat-button-toggle-checked {
-  background: linear-gradient(135deg,#1976d2,#42a5f5);
-  color: #fff;
-  border-color: #1976d2;
-  box-shadow: 0 8px 22px rgba(25,118,210,0.25);
-  transform: scale(1.03);
+  background: #1a73e8 !important;
+  color: #fff !important;
+  box-shadow: 0px 4px 12px rgba(26,115,232,0.3);
 }
 
-/* 📌 Documento */
+/* --- Documento (dos campos en fila) --- */
 .documento-container {
   display: flex;
   gap: 15px;
@@ -156,176 +143,78 @@ mat-card-subtitle {
 
 .documento-container mat-form-field {
   flex: 1;
-  min-width: 140px;
+  min-width: 150px;
 }
 
-/* Sección Calificación */
+/* --- Sección calificación --- */
 .section-title {
   font-weight: bold;
   margin-top: 15px;
-  margin-bottom: 5px;
+  margin-bottom: 10px;
   font-size: 1.1rem;
-  color: #333;
   text-align: center;
+  color: #202124;
 }
 
-/* ⭐ Estrellas de calificación */
 .stars {
   display: flex;
   justify-content: center;
-  margin-bottom: 8px;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 10px;
 }
 
 .star {
-  font-size: 2rem;
-  color: #d3d3d3;
+  font-size: 2.2rem;
+  color: #dadce0;
   cursor: pointer;
   transition: transform 0.2s ease, color 0.3s ease;
 }
 
 .star:hover {
+  color: #fbbc04;
   transform: scale(1.2);
-  color: #ffca28;
 }
 
 .star.selected {
-  color: #ffb400;
+  color: #f9ab00;
 }
 
-/* Valor de calificación */
 .calificacion-valor {
   text-align: center;
-  font-size: 1rem;
-  color: #444;
+  font-size: 0.95rem;
+  color: #5f6368;
   margin-bottom: 15px;
 }
 
 .calificacion-numero {
   font-weight: bold;
-  color: #ff9800;
-  font-size: 1.1rem;
+  color: #f9ab00;
 }
 
-/* Botón */
+/* --- Botón enviar --- */
 .button-container {
   display: flex;
   justify-content: center;
-  margin-top: 20px;
 }
 
 button {
-  border-radius: 25px;
-  padding: 10px 25px;
+  border-radius: 30px !important;
+  padding: 12px 28px;
   font-size: 1rem;
   font-weight: bold;
-  text-transform: uppercase;
+  background: #1a73e8;
+  color: white;
+  text-transform: none;
   transition: background 0.3s ease, transform 0.2s ease;
 }
 
 button:hover {
+  background: #1765cc;
   transform: scale(1.05);
 }
 
-
-/* 📱 Responsive ajustes */
+/* --- Responsive --- */
 @media (max-width: 768px) {
-  .survey-card {
-    padding: 20px;
-    max-width: 95%;
-  }
-
-  .logo {
-    max-width: 160px;
-  }
-
-  .star {
-    font-size: 1.8rem;
-  }
-
-  .rol-toggle {
-    flex-direction: column;
-    width: 100%;
-  }
-
-  .rol-toggle .mat-button-toggle {
-    width: 100%;
-    max-width: none;
-  }
+  .documento-container { flex-direction: column; }
+  .rol-toggle { flex-direction: column; }
 }
-
-@media (max-width: 480px) {
-  .survey-card {
-    padding: 15px;
-    max-width: 100%;
-  }
-
-  .logo {
-    max-width: 120px;
-  }
-
-  mat-card-title {
-    font-size: 1.2rem;
-  }
-
-  mat-card-subtitle {
-    font-size: 0.9rem;
-  }
-
-  .star {
-    font-size: 1.5rem;
-  }
-
-  button {
-    width: 100%;
-    padding: 12px;
-  }
-}
-
-/* 🚀 Quitar fondo, borde y sombra del grupo de botones */
-.mat-button-toggle-group {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-.rol-toggle .mat-button-toggle {
-  display: flex !important;
-  justify-content: center !important;
-  align-items: center !important;
-  text-align: center !important;
-}
-
-/* Quitar la flecha (check) del toggle */
-.mat-button-toggle .mat-button-toggle-icon {
-  display: none !important;
-}
-
-/* 🚀 Quitar definitivamente el check/flecha de los toggles */
-::ng-deep .mat-button-toggle .mat-button-toggle-label-content .mat-pseudo-checkbox,
-::ng-deep .mat-button-toggle .mat-pseudo-checkbox {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  visibility: hidden !important;
-}
-
-/* 🚀 Quitar el pseudo-checkbox que mueve el texto */
-::ng-deep .mat-button-toggle .mat-pseudo-checkbox {
-  display: none !important;
-  width: 0 !important;
-  height: 0 !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  flex: 0 0 0 !important;
-}
-
-/* Centrado perfecto de icono y texto */
-.rol-toggle .mat-button-toggle .mat-button-toggle-label-content {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
-  width: 100% !important;
-  text-align: center !important;
-}
-

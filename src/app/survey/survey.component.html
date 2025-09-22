@@ -2,7 +2,7 @@
   <div class="background-overlay"></div>
 
   <mat-card class="survey-card">
-    <!-- Logo -->
+    <!-- Header -->
     <div class="header-container">
       <img src="assets/logo.png" alt="Logo" class="logo" />
       <mat-card-title>Encuesta de Satisfacción</mat-card-title>
@@ -14,27 +14,22 @@
 
         <!-- Selección de rol -->
         <div class="rol-section">
-          <mat-button-toggle-group formControlName="tipo" class="rol-toggle" appearance="legacy">
+          <mat-button-toggle-group formControlName="tipo" class="rol-toggle">
             <mat-button-toggle value="paciente">
-              <mat-icon>person</mat-icon>
-              Paciente
+              <mat-icon>person</mat-icon> Paciente
             </mat-button-toggle>
-
             <mat-button-toggle value="acompanante">
-              <mat-icon>groups</mat-icon>
-              Acompañante
+              <mat-icon>groups</mat-icon> Acompañante
             </mat-button-toggle>
           </mat-button-toggle-group>
         </div>
 
-
-
-        <!-- 📌 Campos Paciente -->
+        <!-- 📌 Paciente -->
         <div *ngIf="esPaciente()" class="form-section">
-          <div class="documento-container">
-            <mat-form-field appearance="outline">
+          <div class="row">
+            <mat-form-field appearance="outline" class="half">
               <mat-label>Tipo de documento</mat-label>
-              <mat-select formControlName="tipoDocumento" required>
+              <mat-select formControlName="tipoDocumento">
                 <mat-option value="cc">Cédula</mat-option>
                 <mat-option value="ti">Tarjeta de Identidad</mat-option>
                 <mat-option value="rc">Registro Civil</mat-option>
@@ -44,31 +39,29 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="half">
               <mat-label>Número de documento</mat-label>
-              <input matInput formControlName="cedula" required />
+              <input matInput formControlName="cedula" />
             </mat-form-field>
           </div>
 
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombres y apellidos</mat-label>
-            <input matInput formControlName="nombre" required />
+            <input matInput formControlName="nombre" />
           </mat-form-field>
         </div>
 
-        <!-- 📌 Campos Acompañante -->
+        <!-- 📌 Acompañante -->
         <div *ngIf="esAcompanante()" class="form-section">
-          <!-- Nombre acompañante -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del acompañante</mat-label>
-            <input matInput formControlName="nombreAcompanante" required />
+            <input matInput formControlName="nombreAcompanante" />
           </mat-form-field>
 
-          <!-- Tipo y número de documento paciente -->
-          <div class="documento-container">
-            <mat-form-field appearance="outline">
-              <mat-label>Tipo de documento del paciente</mat-label>
-              <mat-select formControlName="tipoDocumentoPaciente" required>
+          <div class="row">
+            <mat-form-field appearance="outline" class="half">
+              <mat-label>Tipo de documento paciente</mat-label>
+              <mat-select formControlName="tipoDocumentoPaciente">
                 <mat-option value="cc">Cédula</mat-option>
                 <mat-option value="ti">Tarjeta de Identidad</mat-option>
                 <mat-option value="rc">Registro Civil</mat-option>
@@ -78,42 +71,31 @@
               </mat-select>
             </mat-form-field>
 
-            <mat-form-field appearance="outline">
+            <mat-form-field appearance="outline" class="half">
               <mat-label>Número de documento</mat-label>
-              <input matInput formControlName="pacienteCedula" required />
+              <input matInput formControlName="pacienteCedula" />
             </mat-form-field>
           </div>
 
-          <!-- Nombre paciente -->
           <mat-form-field appearance="outline" class="full-width">
             <mat-label>Nombre del paciente</mat-label>
-            <input matInput formControlName="pacienteNombre" required />
+            <input matInput formControlName="pacienteNombre" />
           </mat-form-field>
         </div>
 
-        <!-- 📞 Teléfono (paciente) -->
-        <div *ngIf="esPaciente() || esAcompanante()" class="form-section">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Teléfono</mat-label>
-            <input matInput formControlName="telefono" required>
-            <mat-error *ngIf="form.get('telefono')?.hasError('required')">
-              El teléfono es obligatorio
-            </mat-error>
-            <mat-error *ngIf="form.get('telefono')?.hasError('pattern')">
-              Solo se permiten números (7 a 15 dígitos)
-            </mat-error>
-          </mat-form-field>
-        </div>
+        <!-- 📞 Teléfono -->
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Teléfono</mat-label>
+          <input matInput formControlName="telefono" />
+        </mat-form-field>
 
-        <!-- 📌 Calificación -->
+        <!-- ⭐ Calificación -->
         <p class="section-title">Calificación del servicio</p>
         <div class="stars">
           <span *ngFor="let star of stars; let i = index" class="star"
-            [class.selected]="i < form.get('calificacion')?.value" (click)="setRating(i + 1)">
-            ★
-          </span>
+                [class.selected]="i < form.get('calificacion')?.value"
+                (click)="setRating(i + 1)">★</span>
         </div>
-
         <p class="calificacion-valor">
           ⭐ Tu calificación:
           <span class="calificacion-numero">
@@ -121,13 +103,13 @@
           </span>
         </p>
 
-        <!-- 📌 Comentario -->
+        <!-- Comentario -->
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Comentario</mat-label>
           <textarea matInput formControlName="comentario" rows="3"></textarea>
         </mat-form-field>
 
-        <!-- 📌 Botón -->
+        <!-- Botón -->
         <div class="button-container">
           <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
             Enviar Encuesta
