@@ -8,7 +8,7 @@
   justify-content: center;
   align-items: center;
   padding: 15px;
-  background: url('../../assets/fondo.png') no-repeat center center/cover;
+  background: url('../../assets/fondo.png') no-repeat center center/cover;  
 }
 
 /* Oscurecer fondo */
@@ -74,10 +74,10 @@ mat-card-subtitle {
   color: #5f6368;
 }
 
-
 /* --- Formularios estilo Google Forms --- */
 mat-form-field {
   width: 100%;
+  margin-bottom: 15px; /* más aire */
 }
 
 mat-form-field .mat-form-field-outline {
@@ -96,6 +96,44 @@ mat-form-field .mat-input-element {
 
 .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick {
   border-color: #1a73e8 !important;
+}
+
+/* --- Secciones con separación clara --- */
+.section-block {
+  margin: 25px 0;
+  padding-bottom: 15px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.section-block:last-child {
+  border-bottom: none;
+}
+
+/* Título de sección */
+.section-title {
+  font-weight: 600;
+  margin-bottom: 15px;
+  font-size: 1.15rem;
+  color: #202124;
+  text-align: left;
+}
+
+/* --- Bloques de preguntas --- */
+.question-block {
+  margin-bottom: 20px;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Observaciones (textarea) */
+textarea.mat-input-element {
+  min-height: 100px;
+  resize: vertical;
+  line-height: 1.4;
 }
 
 /* --- Sección Rol (Paciente/Acompañante) --- */
@@ -128,7 +166,7 @@ mat-form-field .mat-input-element {
 }
 
 .rol-toggle .mat-button-toggle.mat-button-toggle-checked {
-  background: #1a73e8 !important;
+  background: #92c1ff !important;
   color: #fff !important;
   box-shadow: 0px 4px 12px rgba(26,115,232,0.3);
 }
@@ -147,48 +185,33 @@ mat-form-field .mat-input-element {
 }
 
 /* --- Sección calificación --- */
-.section-title {
-  font-weight: bold;
-  margin-top: 15px;
-  margin-bottom: 10px;
-  font-size: 1.1rem;
-  text-align: center;
-  color: #202124;
-}
-
 .stars {
   display: flex;
+  gap: 8px;
   justify-content: center;
-  gap: 10px;
-  margin-bottom: 10px;
+  margin: 15px 0;
 }
 
 .star {
-  font-size: 2.2rem;
-  color: #dadce0;
+  font-size: 36px;
+  color: #ccc;
   cursor: pointer;
-  transition: transform 0.2s ease, color 0.3s ease;
-}
-
-.star:hover {
-  color: #fbbc04;
-  transform: scale(1.2);
+  transition: color 0.2s ease-in-out;
 }
 
 .star.selected {
-  color: #f9ab00;
+  color: #ffca28; /* Amarillo estrella */
 }
 
 .calificacion-valor {
   text-align: center;
-  font-size: 0.95rem;
-  color: #5f6368;
-  margin-bottom: 15px;
+  font-size: 14px;
+  margin-top: 5px;
 }
 
 .calificacion-numero {
   font-weight: bold;
-  color: #f9ab00;
+  color: #ffca28;
 }
 
 /* --- Botón enviar --- */

@@ -1,118 +1,80 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { MatCardModule } from '@angular/material/card';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-
-// Angular Material
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatIconModule } from '@angular/material/icon';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { NgClass } from '@angular/common';
 
 @Component({
   selector: 'app-survey',
   standalone: true,
   imports: [
-    CommonModule,
+    FormsModule,
     ReactiveFormsModule,
     MatFormFieldModule,
     MatInputModule,
-    MatButtonModule,
-    MatRadioModule,
-    MatCardModule,
     MatSelectModule,
-    MatButtonToggleModule,
-    MatIconModule
+    MatRadioModule,
+    MatIconModule,
+    MatButtonModule,
+    MatCardModule,
+    NgClass
   ],
   templateUrl: './survey.component.html',
   styleUrls: ['./survey.component.css']
 })
 export class SurveyComponent {
-  form: FormGroup;
-  stars = Array(5).fill(0); // ⭐ 5 estrellas
+  surveyForm: FormGroup;
+  rating: number = 0; // ⭐ Estrellas seleccionadas
 
   constructor(private fb: FormBuilder) {
-    this.form = this.fb.group({
-      tipo: ['', Validators.required],
+    this.surveyForm = this.fb.group({
+      sede: ['', Validators.required],
+      nombres: ['', Validators.required],
+      tipoDocumento: ['', Validators.required],
+      numeroDocumento: ['', Validators.required],
+      tipoUsuario: ['', Validators.required],
+      telefono: ['', Validators.required],
+      tipoServicio: ['', Validators.required],
 
-      // Paciente
-      tipoDocumento: [''],
-      cedula: [''],
-      nombre: [''],
+      // Preguntas
+      experiencia: ['', Validators.required],        // ⭐ calificación
+      recomendacion: ['', Validators.required],
+      tiempoEspera: ['', Validators.required],
+      diasCita: ['', Validators.required],
+      tratoRespetuoso: ['', Validators.required],
+      examenFisico: ['', Validators.required],
+      explicacionClara: ['', Validators.required],
+      educacionOrientacion: ['', Validators.required],
+      higiene: ['', Validators.required],
+      servicioOrdenado: ['', Validators.required],
+      tiempoTerapias: ['', Validators.required],
 
-      // Teléfono (siempre requerido)
-      telefono: ['', [Validators.required, Validators.pattern('^[0-9]{7,15}$')]],
-
-      // Acompañante
-      nombreAcompanante: [''],
-      tipoDocumentoPaciente: [''],
-      pacienteCedula: [''],
-      pacienteNombre: [''],
-
-      // Calificación + comentario
-      comentario: [''],
-      calificacion: [0, [Validators.required, Validators.min(1), Validators.max(5)]]
-    });
-
-    // Detectar cambios en el tipo de rol
-    this.form.get('tipo')?.valueChanges.subscribe(tipo => {
-      this.onTipoChange(tipo);
-    });
-  }
-
-  // Activar validadores dinámicos
-  onTipoChange(tipo: string) {
-    if (tipo === 'paciente') {
-      // ✅ Paciente: solo estos campos obligatorios
-      this.setRequired(['tipoDocumento', 'cedula', 'nombre']);
-      this.clearRequired(['nombreAcompanante', 'tipoDocumentoPaciente', 'pacienteCedula', 'pacienteNombre']);
-    } else if (tipo === 'acompanante') {
-      // ✅ Acompañante: solo estos campos obligatorios
-      this.setRequired(['nombreAcompanante', 'tipoDocumentoPaciente', 'pacienteCedula', 'pacienteNombre']);
-      this.clearRequired(['tipoDocumento', 'cedula', 'nombre']);
-    }
-  }
-
-  // Métodos utilitarios para asignar/quitar required
-  private setRequired(fields: string[]) {
-    fields.forEach(f => {
-      this.form.get(f)?.setValidators([Validators.required]);
-      this.form.get(f)?.updateValueAndValidity();
+      // Otros campos
+      observaciones: [''],
+      personaEncuesta: ['']
     });
   }
 
-  private clearRequired(fields: string[]) {
-    fields.forEach(f => {
-      this.form.get(f)?.clearValidators();
-      this.form.get(f)?.updateValueAndValidity();
-    });
-  }
-
-  // Métodos para saber el tipo
-  esPaciente() {
-    return this.form.value.tipo === 'paciente';
-  }
-
-  esAcompanante() {
-    return this.form.value.tipo === 'acompanante';
-  }
-
-  // Seleccionar calificación
+  // Manejo de estrellas ⭐
   setRating(value: number) {
-    this.form.patchValue({ calificacion: value });
+    this.rating = value;
+    this.surveyForm.patchValue({ experiencia: value });
   }
 
   // Enviar formulario
   onSubmit() {
-    if (this.form.valid) {
-      console.log('Encuesta enviada:', this.form.value);
+    if (this.surveyForm.valid) {
+      console.log('✅ Datos enviados:', this.surveyForm.value);
       alert('✅ Encuesta enviada con éxito');
-      this.form.reset({ calificacion: 0 });
+      this.surveyForm.reset();
+      this.rating = 0;
     } else {
-      alert('⚠️ Por favor completa todos los campos obligatorios.');
+      alert('⚠️ Debes completar todos los campos obligatorios');
     }
   }
 }

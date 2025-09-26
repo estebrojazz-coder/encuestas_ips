@@ -2,120 +2,236 @@
   <div class="background-overlay"></div>
 
   <mat-card class="survey-card">
-    <!-- Header -->
+    <!-- Encabezado -->
     <div class="header-container">
-      <img src="assets/logo.png" alt="Logo" class="logo" />
-      <mat-card-title>Encuesta de Satisfacción</mat-card-title>
-      <mat-card-subtitle>Tu opinión nos ayuda a mejorar</mat-card-subtitle>
+      <img src="../../assets/logo.png" alt="Logo IPS" class="logo" />
+      <mat-card-title>2025 - ENCUESTA DE SATISFACCIÓN</mat-card-title>
+      <mat-card-subtitle>Rehabilitdemos Bucaramanga - Sede Nacional</mat-card-subtitle>
     </div>
 
-    <mat-card-content>
-      <form [formGroup]="form" (ngSubmit)="onSubmit()">
+    <form [formGroup]="surveyForm" (ngSubmit)="onSubmit()">
 
-        <!-- Selección de rol -->
-        <div class="rol-section">
-          <mat-button-toggle-group formControlName="tipo" class="rol-toggle">
-            <mat-button-toggle value="paciente">
-              <mat-icon>person</mat-icon> Paciente
-            </mat-button-toggle>
-            <mat-button-toggle value="acompanante">
-              <mat-icon>groups</mat-icon> Acompañante
-            </mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
+      <!-- ================== DATOS BÁSICOS ================== -->
 
-        <!-- 📌 Paciente -->
-        <div *ngIf="esPaciente()" class="form-section">
-          <div class="row">
-            <mat-form-field appearance="outline" class="half">
-              <mat-label>Tipo de documento</mat-label>
-              <mat-select formControlName="tipoDocumento">
-                <mat-option value="cc">Cédula</mat-option>
-                <mat-option value="ti">Tarjeta de Identidad</mat-option>
-                <mat-option value="rc">Registro Civil</mat-option>
-                <mat-option value="ce">Cédula de Extranjería</mat-option>
-                <mat-option value="pas">Pasaporte</mat-option>
-                <mat-option value="ptp">Permiso Temporal</mat-option>
-              </mat-select>
-            </mat-form-field>
+      <mat-form-field appearance="outline">
+        <mat-label>Sede de la IPS</mat-label>
+        <mat-select formControlName="sede" required>
+          <mat-option value="bucaramanga">Bucaramanga - Sede Nacional</mat-option>
+        </mat-select>
+      </mat-form-field>
 
-            <mat-form-field appearance="outline" class="half">
-              <mat-label>Número de documento</mat-label>
-              <input matInput formControlName="cedula" />
-            </mat-form-field>
-          </div>
+      <mat-form-field appearance="outline">
+        <mat-label>Nombres y Apellidos</mat-label>
+        <input matInput formControlName="nombres" required />
+      </mat-form-field>
 
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombres y apellidos</mat-label>
-            <input matInput formControlName="nombre" />
-          </mat-form-field>
-        </div>
-
-        <!-- 📌 Acompañante -->
-        <div *ngIf="esAcompanante()" class="form-section">
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombre del acompañante</mat-label>
-            <input matInput formControlName="nombreAcompanante" />
-          </mat-form-field>
-
-          <div class="row">
-            <mat-form-field appearance="outline" class="half">
-              <mat-label>Tipo de documento paciente</mat-label>
-              <mat-select formControlName="tipoDocumentoPaciente">
-                <mat-option value="cc">Cédula</mat-option>
-                <mat-option value="ti">Tarjeta de Identidad</mat-option>
-                <mat-option value="rc">Registro Civil</mat-option>
-                <mat-option value="ce">Cédula de Extranjería</mat-option>
-                <mat-option value="pas">Pasaporte</mat-option>
-                <mat-option value="ptp">Permiso Temporal</mat-option>
-              </mat-select>
-            </mat-form-field>
-
-            <mat-form-field appearance="outline" class="half">
-              <mat-label>Número de documento</mat-label>
-              <input matInput formControlName="pacienteCedula" />
-            </mat-form-field>
-          </div>
-
-          <mat-form-field appearance="outline" class="full-width">
-            <mat-label>Nombre del paciente</mat-label>
-            <input matInput formControlName="pacienteNombre" />
-          </mat-form-field>
-        </div>
-
-        <!-- 📞 Teléfono -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Teléfono</mat-label>
-          <input matInput formControlName="telefono" />
+      <div class="documento-container">
+        <mat-form-field appearance="outline">
+          <mat-label>Tipo de Documento</mat-label>
+          <mat-select formControlName="tipoDocumento" required>
+            <mat-option value="cc">Cédula de Ciudadanía</mat-option>
+            <mat-option value="pep">Permiso Especial de Permanencia</mat-option>
+            <mat-option value="ce">Cédula de Extranjería</mat-option>
+            <mat-option value="rc">Registro Civil</mat-option>
+            <mat-option value="ti">Tarjeta de Identidad</mat-option>
+          </mat-select>
         </mat-form-field>
 
-        <!-- ⭐ Calificación -->
-        <p class="section-title">Calificación del servicio</p>
+        <mat-form-field appearance="outline">
+          <mat-label>N° Documento</mat-label>
+          <input matInput formControlName="numeroDocumento" required />
+        </mat-form-field>
+      </div>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Usuario</mat-label>
+        <mat-select formControlName="tipoUsuario" required>
+          <mat-option value="contributivo">Contributivo</mat-option>
+          <mat-option value="subsidiado">Subsidiado</mat-option>
+          <mat-option value="particular">Particular</mat-option>
+          <mat-option value="aseguradora">Aseguradora</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Teléfono de contacto</mat-label>
+        <input matInput formControlName="telefono" required />
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Tipo de Servicio</mat-label>
+        <mat-select formControlName="tipoServicio" required>
+          <mat-option value="enfermeria">Enfermería</mat-option>
+          <mat-option value="nutricion">Nutrición</mat-option>
+          <mat-option value="medicina">Medicina General</mat-option>
+          <mat-option value="fisica">Terapia Física</mat-option>
+          <mat-option value="psicologia">Psicología</mat-option>
+          <mat-option value="ocupacional">Terapia Ocupacional</mat-option>
+          <mat-option value="lenguaje">Terapia de Lenguaje</mat-option>
+          <mat-option value="respiratoria">Terapia Respiratoria</mat-option>
+          <mat-option value="cuidador">Cuidador</mat-option>
+          <mat-option value="recepcion">Recepción</mat-option>
+          <mat-option value="otro">Otro</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <!-- Calificación -->
+      <div class="section-title">Califica tu experiencia</div>
+      <div class="stars">
+        <mat-icon *ngFor="let star of [1,2,3,4,5]" class="star" [class.selected]="star <= rating"
+          (click)="setRating(star)">
+          star
+        </mat-icon>
+      </div>
+      <div class="calificacion-valor">
+        Seleccionaste: <span class="calificacion-numero">{{ rating }}</span> estrellas
+      </div>
+
+
+      <!-- ================== PREGUNTAS ================== -->
+
+      <!-- Pregunta 1 -->
+      <div class="question-block">
+        <label>1. ¿Cómo calificaría su experiencia global?</label>
         <div class="stars">
-          <span *ngFor="let star of stars; let i = index" class="star"
-                [class.selected]="i < form.get('calificacion')?.value"
-                (click)="setRating(i + 1)">★</span>
+          <mat-icon *ngFor="let star of [1,2,3,4,5]" class="star" [ngClass]="{'selected': star <= rating}"
+            (click)="setRating(star)">
+            star
+          </mat-icon>
         </div>
-        <p class="calificacion-valor">
-          ⭐ Tu calificación:
-          <span class="calificacion-numero">
-            {{ form.get('calificacion')?.value || 0 }}/5
-          </span>
-        </p>
+      </div>
 
-        <!-- Comentario -->
-        <mat-form-field appearance="outline" class="full-width">
-          <mat-label>Comentario</mat-label>
-          <textarea matInput formControlName="comentario" rows="3"></textarea>
-        </mat-form-field>
+      <!-- Pregunta 2 -->
+      <div class="question-block">
+        <label>2. ¿Recomendaría la IPS?</label>
+        <mat-radio-group formControlName="recomendacion">
+          <mat-radio-button value="def_s">Definitivamente Sí</mat-radio-button>
+          <mat-radio-button value="prob_s">Probablemente Sí</mat-radio-button>
+          <mat-radio-button value="def_n">Definitivamente No</mat-radio-button>
+          <mat-radio-button value="prob_n">Probablemente No</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
 
-        <!-- Botón -->
-        <div class="button-container">
-          <button mat-raised-button color="primary" type="submit" [disabled]="form.invalid">
-            Enviar Encuesta
-          </button>
-        </div>
-      </form>
-    </mat-card-content>
+      <!-- Pregunta 3 -->
+      <div class="question-block">
+        <label>3. ¿Cuánto tiempo esperó para ser atendido?</label>
+        <mat-radio-group formControlName="tiempoEspera">
+          <mat-radio-button value="inmediato">Inmediato</mat-radio-button>
+          <mat-radio-button value="menos15">Menor a 15 minutos</mat-radio-button>
+          <mat-radio-button value="15-30">De 15 a 30 minutos</mat-radio-button>
+          <mat-radio-button value="mas30">Mayor a 30 minutos</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 4 -->
+      <div class="question-block">
+        <label>4. ¿Después de su solicitud cuántos días tardó la cita?</label>
+        <mat-radio-group formControlName="diasCita">
+          <mat-radio-button value="menos3">Menor a 3 días</mat-radio-button>
+          <mat-radio-button value="3-6">De 3 a 6 días</mat-radio-button>
+          <mat-radio-button value="7-9">De 7 a 9 días</mat-radio-button>
+          <mat-radio-button value="10-15">De 10 a 15 días</mat-radio-button>
+          <mat-radio-button value="mas15">Más de 15 días</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 5 -->
+      <div class="question-block">
+        <label>5. ¿El trato recibido fue respetuoso y amable?</label>
+        <mat-radio-group formControlName="tratoRespetuoso">
+          <mat-radio-button value="def_s">Definitivamente Sí</mat-radio-button>
+          <mat-radio-button value="prob_s">Probablemente Sí</mat-radio-button>
+          <mat-radio-button value="def_n">Definitivamente No</mat-radio-button>
+          <mat-radio-button value="prob_n">Probablemente No</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 6 -->
+      <div class="question-block">
+        <label>6. ¿El profesional realizó un cuidadoso examen físico?</label>
+        <mat-radio-group formControlName="examenFisico">
+          <mat-radio-button value="def_s">Definitivamente Sí</mat-radio-button>
+          <mat-radio-button value="prob_s">Probablemente Sí</mat-radio-button>
+          <mat-radio-button value="def_n">Definitivamente No</mat-radio-button>
+          <mat-radio-button value="prob_n">Probablemente No</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 7 -->
+      <div class="question-block">
+        <label>7. ¿El profesional explicó claramente la atención?</label>
+        <mat-radio-group formControlName="explicacionClara">
+          <mat-radio-button value="def_s">Definitivamente Sí</mat-radio-button>
+          <mat-radio-button value="prob_s">Probablemente Sí</mat-radio-button>
+          <mat-radio-button value="def_n">Definitivamente No</mat-radio-button>
+          <mat-radio-button value="prob_n">Probablemente No</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 8 -->
+      <div class="question-block">
+        <label>8. ¿Recibió educación y orientación en salud?</label>
+        <mat-radio-group formControlName="educacionOrientacion">
+          <mat-radio-button value="def_s">Definitivamente Sí</mat-radio-button>
+          <mat-radio-button value="prob_s">Probablemente Sí</mat-radio-button>
+          <mat-radio-button value="def_n">Definitivamente No</mat-radio-button>
+          <mat-radio-button value="prob_n">Probablemente No</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 9 -->
+      <div class="question-block">
+        <label>9. ¿Cómo considera la higiene y aseo en las instalaciones?</label>
+        <mat-radio-group formControlName="higiene">
+          <mat-radio-button value="muy_bueno">Muy bueno</mat-radio-button>
+          <mat-radio-button value="bueno">Bueno</mat-radio-button>
+          <mat-radio-button value="regular">Regular</mat-radio-button>
+          <mat-radio-button value="malo">Malo</mat-radio-button>
+          <mat-radio-button value="muy_malo">Muy malo</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 10 -->
+      <div class="question-block">
+        <label>10. ¿El servicio prestado fue acorde a lo ordenado?</label>
+        <mat-radio-group formControlName="servicioOrdenado">
+          <mat-radio-button value="si">Sí</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Pregunta 11 -->
+      <div class="question-block">
+        <label>11. ¿El tiempo de terapias fue acorde a lo ordenado?</label>
+        <mat-radio-group formControlName="tiempoTerapias">
+          <mat-radio-button value="si">Sí</mat-radio-button>
+          <mat-radio-button value="no">No</mat-radio-button>
+          <mat-radio-button value="na">N/A</mat-radio-button>
+        </mat-radio-group>
+      </div>
+
+      <!-- Observaciones -->
+      <mat-form-field appearance="outline">
+        <mat-label>Observaciones</mat-label>
+        <textarea matInput rows="3" formControlName="observaciones"></textarea>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Persona que diligenció la encuesta</mat-label>
+        <input matInput formControlName="personaEncuesta" />
+      </mat-form-field>
+
+      <!-- Botón Enviar -->
+      <div class="button-container">
+        <button mat-raised-button color="primary" type="submit">
+          Enviar Encuesta
+        </button>
+      </div>
+    </form>
   </mat-card>
 </div>
