@@ -10,7 +10,7 @@ import { MatCardModule } from '@angular/material/card';
 import { NgFor, NgClass } from '@angular/common';
 
 @Component({
-  selector: 'app-survey',
+  selector: 'app-datos',
   standalone: true,
   imports: [
     FormsModule,
@@ -25,17 +25,17 @@ import { NgFor, NgClass } from '@angular/common';
     NgFor,
     NgClass
   ],
-  templateUrl: './survey.component.html',
-  styleUrls: ['./survey.component.css']
+  templateUrl: './datos.component.html',
+  styleUrls: ['./datos.component.css']
 })
-export class SurveyComponent {
+export class DatosComponent {
   rating = 0;        // Calificación guardada
   hoverRating = 0;   // Calificación en hover
   stars = [1, 2, 3, 4, 5];
-  surveyForm: FormGroup;
+  datosForm: FormGroup;
 
   constructor(private fb: FormBuilder) {
-    this.surveyForm = this.fb.group({
+    this.datosForm = this.fb.group({
       sede: ['', Validators.required],
       nombres: ['', Validators.required],
       tipoDocumento: ['', Validators.required],
@@ -43,30 +43,13 @@ export class SurveyComponent {
       tipoUsuario: ['', Validators.required],
       telefono: ['', Validators.required],
       tipoServicio: ['', Validators.required],
-
-      // Preguntas
-      experiencia: ['', Validators.required], // ⭐ calificación
-      recomendacion: ['', Validators.required],
-      tiempoEspera: ['', Validators.required],
-      diasCita: ['', Validators.required],
-      tratoRespetuoso: ['', Validators.required],
-      examenFisico: ['', Validators.required],
-      explicacionClara: ['', Validators.required],
-      educacionOrientacion: ['', Validators.required],
-      higiene: ['', Validators.required],
-      servicioOrdenado: ['', Validators.required],
-      tiempoTerapias: ['', Validators.required],
-
-      // Otros campos
-      observaciones: [''],
-      personaEncuesta: ['']
     });
   }
 
   // ⭐ Seleccionar calificación
   setRating(value: number) {
     this.rating = value;
-    this.surveyForm.patchValue({ experiencia: value });
+    this.datosForm.patchValue({ experiencia: value });
   }
 
   // ⭐ Hover sobre estrella
@@ -79,12 +62,10 @@ export class SurveyComponent {
     this.hoverRating = 0;
   }
 
-  // 🚀 Enviar formulario
+  // 🚀 pasar a preguntas
   onSubmit() {
-    if (this.surveyForm.valid) {
-      console.log('✅ Datos enviados:', this.surveyForm.value);
-      alert('✅ Encuesta enviada con éxito');
-      this.surveyForm.reset();
+    if (this.datosForm.valid) {
+      this.datosForm
       this.rating = 0;
       this.hoverRating = 0;
     } else {

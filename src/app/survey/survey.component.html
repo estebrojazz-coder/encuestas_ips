@@ -74,32 +74,28 @@
           <mat-option value="otro">Otro</mat-option>
         </mat-select>
       </mat-form-field>
-
-      <!-- Calificación -->
-      <div class="section-title">Califica tu experiencia</div>
-      <div class="stars">
-        <mat-icon *ngFor="let star of [1,2,3,4,5]" class="star" [class.selected]="star <= rating"
-          (click)="setRating(star)">
-          star
-        </mat-icon>
-      </div>
-      <div class="calificacion-valor">
-        Seleccionaste: <span class="calificacion-numero">{{ rating }}</span> estrellas
-      </div>
-
-
       <!-- ================== PREGUNTAS ================== -->
 
-      <!-- Pregunta 1 -->
-      <div class="question-block">
-        <label>1. ¿Cómo calificaría su experiencia global?</label>
-        <div class="stars">
-          <mat-icon *ngFor="let star of [1,2,3,4,5]" class="star" [ngClass]="{'selected': star <= rating}"
-            (click)="setRating(star)">
+      <!-- ⭐ Calificación -->
+      <div class="calificacion-container">
+        <div class="calificacion-titulo">Califica tu experiencia</div>
+
+        <div class="star-rating">
+          <mat-icon *ngFor="let star of stars; let i = index" [ngClass]="{
+        'selected': i < rating,
+        'hovered': i < hoverRating
+      }" (mouseenter)="setHover(i + 1)" (mouseleave)="clearHover()" (click)="setRating(i + 1)">
             star
           </mat-icon>
         </div>
+
+        <div class="calificacion-valor">
+          Seleccionaste:
+          <span class="calificacion-numero">{{ rating }}</span>
+          estrellas
+        </div>
       </div>
+
 
       <!-- Pregunta 2 -->
       <div class="question-block">
