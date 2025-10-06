@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -7,7 +7,8 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
-import { NgFor, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+import { DatosService } from '../core/datos.service';
 
 @Component({
   selector: 'app-survey',
@@ -22,30 +23,24 @@ import { NgFor, NgClass } from '@angular/common';
     MatIconModule,
     MatButtonModule,
     MatCardModule,
-    NgFor,
-    NgClass
   ],
   templateUrl: './survey.component.html',
   styleUrls: ['./survey.component.css']
 })
-export class SurveyComponent {
-  rating = 0;        // Calificación guardada
-  hoverRating = 0;   // Calificación en hover
+export class SurveyComponent implements OnInit {
+  rating = 0;        
+  hoverRating = 0;   
   stars = [1, 2, 3, 4, 5];
   surveyForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private datosService: DatosService,
+    private router: Router
+  ) {
     this.surveyForm = this.fb.group({
-      sede: ['', Validators.required],
-      nombres: ['', Validators.required],
-      tipoDocumento: ['', Validators.required],
-      numeroDocumento: ['', Validators.required],
-      tipoUsuario: ['', Validators.required],
-      telefono: ['', Validators.required],
-      tipoServicio: ['', Validators.required],
-
       // Preguntas
-      experiencia: ['', Validators.required], // ⭐ calificación
+      experiencia: ['', Validators.required], 
       recomendacion: ['', Validators.required],
       tiempoEspera: ['', Validators.required],
       diasCita: ['', Validators.required],
@@ -63,32 +58,46 @@ export class SurveyComponent {
     });
   }
 
+  ngOnInit() {
+    const datosGuardados = this.datosService.getDatos();
+
+    // Si no hay datos en sessionStorage → redirigir a Datos
+    if (!datosGuardados) {
+      this.router.navigate(['/datos']);
+      return;
+    }
+
+    console.log('✅ Datos personales cargados:', datosGuardados);
+  }
+
   // ⭐ Seleccionar calificación
   setRating(value: number) {
     this.rating = value;
     this.surveyForm.patchValue({ experiencia: value });
   }
 
-  // ⭐ Hover sobre estrella
   setHover(value: number) {
     this.hoverRating = value;
   }
 
-  // ⭐ Salir del hover
   clearHover() {
     this.hoverRating = 0;
   }
 
   // 🚀 Enviar formulario
-  onSubmit() {
-    if (this.surveyForm.valid) {
-      console.log('✅ Datos enviados:', this.surveyForm.value);
-      alert('✅ Encuesta enviada con éxito');
-      this.surveyForm.reset();
-      this.rating = 0;
-      this.hoverRating = 0;
-    } else {
-      alert('⚠️ Debes completar todos los campos obligatorios');
-    }
+ onSubmit() {
+  if (this.surveyForm.valid) {
+    const encuestaCompleta = this.datosService.getEncuestaCompleta(this.surveyForm.value);
+    console.log('✅ Todo listo:', encuestaCompleta);
+
+    // Aquí enviarías a backend
+    alert('✅ Encuesta enviada con éxito');
+
+    this.surveyForm.reset();
+    this.datosService.clearDatos(); // limpiar memoria
+  } else {
+    alert('⚠️ Debes completar todos los campos');
   }
+}
+
 }

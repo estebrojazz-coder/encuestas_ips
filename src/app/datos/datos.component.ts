@@ -8,6 +8,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { NgFor, NgClass } from '@angular/common';
+import { Router } from '@angular/router';
+import { DatosService } from '../core/datos.service';
 
 @Component({
   selector: 'app-datos',
@@ -34,7 +36,11 @@ export class DatosComponent {
   stars = [1, 2, 3, 4, 5];
   datosForm: FormGroup;
 
-  constructor(private fb: FormBuilder) {
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+    private datosService: DatosService
+  ) {
     this.datosForm = this.fb.group({
       sede: ['', Validators.required],
       nombres: ['', Validators.required],
@@ -43,6 +49,7 @@ export class DatosComponent {
       tipoUsuario: ['', Validators.required],
       telefono: ['', Validators.required],
       tipoServicio: ['', Validators.required],
+      experiencia: ['', Validators.required]  // ⭐ agregado
     });
   }
 
@@ -52,12 +59,10 @@ export class DatosComponent {
     this.datosForm.patchValue({ experiencia: value });
   }
 
-  // ⭐ Hover sobre estrella
   setHover(value: number) {
     this.hoverRating = value;
   }
 
-  // ⭐ Salir del hover
   clearHover() {
     this.hoverRating = 0;
   }
@@ -65,9 +70,14 @@ export class DatosComponent {
   // 🚀 pasar a preguntas
   onSubmit() {
     if (this.datosForm.valid) {
-      this.datosForm
-      this.rating = 0;
-      this.hoverRating = 0;
+      // ✅ Guardar datos en el servicio
+      this.datosService.setDatos(this.datosForm.value);
+
+      // ✅ Mensaje de confirmación
+      alert('✅ Datos guardados con éxito, ahora responde la encuesta');
+
+      // 👉 Redirigir a encuesta
+      this.router.navigate(['/encuesta']);
     } else {
       alert('⚠️ Debes completar todos los campos obligatorios');
     }
